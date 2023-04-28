@@ -1,0 +1,96 @@
+Section one
+=========================
+
+In such a situation, a high level of soft skill, and effective communication is required to prevent churn.
+Here are the steps I will take to manage the situation effectively:
+
+First off, I will acknowledge the problem that the merchant is facing and take full responsibility for the errors in the Integration.
+I will apologies for the incovenience it has caused the merchant business, I will empathize with the merchant for the frustrations the merchant has faced or facing due to the integration error.
+
+Secondly, I wil give re-assurance that the issue is taken as high priority situation on our end and that all hands is on deck to resolve the issue.
+I will set the expectations by communicating the steps being taken to resolve the issue by our team and set realistic ETA(estimated time of Arrival) when the issue will be fixed. 
+I will be transparent with the progress that has been done so far and ensure the merchant stays updated on regular basis on the progress being made towards fixing the issue
+
+Also, for managing Peters expectections right, I will need to provide more details about the integration error to help him undertsand the issue better which can also help him communicate with the merchants better. 
+I will let him know the progress so far as well and the expected ETA which will help manage the merchant's expectations and prevent future churn
+
+lastly, After the issue is resolved, I will also do follow up with the merchant for sometime to ensure that they are satisfied with the resolution and get any other feedback on our services.        
+
+Section 2
+
+1. Hello Jesse, 
+
+Thank you for contacting Okra Support. 
+
+I'm sorry to hear that you're having trouble getting the latest transactions using the https://api.okra.ng/v2/transactions/getById.
+Kindly Make a POST request to endpoint https://api.okra.ng/v2/transactions/getByDate which returns set of transactions of all customers within a specific date range. If you want to get same result for a particular customer, also Make a POST request to this endpoint https://api.okra.ng/v2/transactions/getByCustomerDate
+ensuring that the customer_id and date_range  to the endpoint https://docs.okra.ng/reference/gettransactionbydate. For more details about this endpoint please refer to our documentation https://docs.okra.ng/reference/gettransactionbydate
+Let me know if this helps, or if there is anything else I can do to assist you.
+
+2. Hello Mike! 
+
+Thanks for contacting Okra Support.
+ 
+To programmatically indicate whether the connection was successful or in case of an error, you can use the events provided by the Widget to help handle errors and build analytics around your Okra Widget
+you can use the onSuccess event which is called after the successful linking of your account to Okra Widget. 
+Similarly, you can use the onError event to handle errors during Okra widget initialization incase an error while connecting to 
+You can find more information about these events in our documentation here https://docs.okra.ng/docs/widget-options#onsucces with guidiance on implementation. Let me know if you have any further questions or if there's anything else I can do to help!
+
+
+3. Hello Blessing,
+
+Thanks for contacting Okra Support.
+
+We have a free sandbox environment that you can use to test Okra without ay charges. 
+This environment provides a fully functional version of our API and Dashboard that you can use to simulate various scenarios and test your integration. 
+You can find more information about our sandbox environment here https://docs.okra.ng/reference/createcustomers.
+Let me know if you have any further questions or if there's anything I can assist you with.
+
+
+
+
+Section 3
+
+Problem 1.
+=====================
+
+Upon debugging and reproducing the issue, the customer was making a request to a documentation url https://docs.okra.ng/reference/fetchauths rather than the actual endpoint meant to fetchAuth data 'https://api.okra.ng/v2/products/auths'.
+
+This was verified upon testing, the server returned a 404, as it cannot find the resource of the route https://docs.okra.ng/reference/fetchauths, the error message can be seen to be in html format, which of course proves that the route the customer was making a request to is not an API endpoint but just an ordinary url in Okra documentation.
+
+Secondly, the customer was passing wrong JSON format as payload in the request body to this wrong POST request Endpoint.
+
+The correct payload is {"page": 1} and not {page: 1}.
+
+In conclusion the customer should use the route:https://api.okra.ng/v2/products/auths and payload: {"page": 1} to get the desired result.
+
+curl -i -X POST \
+   -H "Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE2MzU4MTMwYTk0MzQ4NmYzM2RjZWQiLCJpYXQiOjE2NzU4NDk5NTR9.DP2dfE9xDXKwviPeMQa6a1_pXkxIa3C8G8kPbg9o1Vk" \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+	"page": 1
+}' \
+'https://api.okra.ng/v2/products/auths'
+
+
+Problem 2:
+================
+
+First off, the customer was making a request to a documentation url https://docs.okra.ng/reference/getidentitybydate rather than the actual endpoint meant to  retrieve identity profiles for all users in a given date range 'https://docs.okra.ng/reference/getidentitybydate'.
+
+Secondly the customer passed total wrong payload to the wrong route. The payload in the request body should be "from" and "to" param which are date range in string correctly formated in JSON.
+
+In summary, the customer should use the route as  https://docs.okra.ng/reference/getidentitybydate and payload should be { "from": "2023-01-01", "to": "2023-01-02" } to the right result as shown below
+
+curl -i -X POST \
+   -H "Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE2MzU4MTMwYTk0MzQ4NmYzM2RjZWQiLCJpYXQiOjE2NzU4NDk5NTR9.DP2dfE9xDXKwviPeMQa6a1_pXkxIa3C8G8kPbg9o1Vk" \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+	"from": "2023-01-01",
+  	"to": "2023-01-02"
+  
+}' \
+'https://api.okra.ng/v2/identity/getByDate'
+        
